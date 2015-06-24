@@ -5,11 +5,10 @@ import java.util.*;
 public class SeamCarver {
 
    private Picture picture;
-   public SeamCarver(Picture picture){
-   // create a seam carver object based on the given pictures
+   public SeamCarver(Picture picture){  
       this.picture=picture;
    }
-   public Picture picture(){  // current picture
+   public Picture picture(){
       return this.picture;
    }
    public int width(){
@@ -21,7 +20,7 @@ public class SeamCarver {
       return this.picture.height();
    }
    public  double energy(int x, int y){
-                  // energy of pixel at column x and row y
+     
       return 0;
   }
    public   int[] findHorizontalSeam(){
