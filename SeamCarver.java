@@ -20,7 +20,7 @@ public class SeamCarver {
       return this.picture.height();
    }
    public  double energy(int x, int y){
-     
+     //calculating the energy of a pixel
       return 0;
   }
    public   int[] findHorizontalSeam(){
