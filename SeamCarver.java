@@ -54,6 +54,10 @@ public class SeamCarver {
   }
    public   int[] findHorizontalSeam(){
    // sequence of indices for horizontal seam
+      int[] hSeam = new int[this.picture.width()]
+      for (int i = 0; i < this.picture.width(); i ++) {
+         
+      }
       return null;
    }
    public   int[] findVerticalSeam(){
