@@ -52,13 +52,33 @@ public class SeamCarver {
       
       return dx + dy;
   }
-   public   int[] findHorizontalSeam(){
+  
+  public   int[] findHorizontalSeam(){
    // sequence of indices for horizontal seam
-      int[] hSeam = new int[this.picture.width()]
-      for (int i = 0; i < this.picture.width(); i ++) {
-         
+      int h = this.picture.height();
+      int w = this.picture.width();
+      double[][] minEnergyMap = new double[h][w]; 
+      int[] hSeam = new int[w];      
+      int minEnergyPix = 0;
+      int colCounter = 0;
+      //dp base case
+      for (int i = 0; i < h; i ++) {
+         minEnergyMap[i][colCounter] = energy(i,colCounter);
       }
-      return null;
+      for ( int col = 1; col < w; col++) {
+         for (int row = 1; row < h-1; row ++) {
+            double currPixEnergy = energy(row, col);          
+            double left = minEnergyMap[row][col-1];
+            double leftTop = minEnergyMap[row-1][col-1];
+            double leftBottom = minEnergyMap[row+1][col-1];
+            
+            double smallest = left;
+            if (smallest > leftTop) smallest = leftTop;
+            if (smallest > leftBottom) smallest = leftBottom;
+            minEnergyMap[row][col]= currPixEnergy + smallest;
+         }
+      }
+      return hSeam;
    }
    public   int[] findVerticalSeam(){
    // sequence of indices for vertical seam
