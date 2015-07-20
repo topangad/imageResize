@@ -26,8 +26,8 @@ public class SeamCarver {
       double rdx, bdx, gdx, rdy, bdy, gdy;
       
       if ( x == 0 || y == 0 ||
-            x == picture.width()-1 ||
-            y == picture.height()-1){      
+            x >= picture.width()-1 ||
+            y >= picture.height()-1){      
          top = this.picture.get(x, y);
          bottom = top;
          left = top;
@@ -61,13 +61,13 @@ public class SeamCarver {
       int[] hSeam = new int[w];      
       int minEnergyPix = 0;
       int colCounter = 0;
-      //dp base case
+      //dp base case x = cols, y = rows
       for (int i = 0; i < h; i ++) {
-         minEnergyMap[i][colCounter] = energy(i,colCounter);
+         minEnergyMap[i][0] = energy(colCounter, i);
       }
       for ( int col = 1; col < w; col++) {
          for (int row = 1; row < h-1; row ++) {
-            double currPixEnergy = energy(row, col);          
+            double currPixEnergy = energy(col, row);          
             double left = minEnergyMap[row][col-1];
             double leftTop = minEnergyMap[row-1][col-1];
             double leftBottom = minEnergyMap[row+1][col-1];
@@ -78,7 +78,51 @@ public class SeamCarver {
             minEnergyMap[row][col]= currPixEnergy + smallest;
          }
       }
+      
+      hSeam = getMinSeam(minEnergyMap);
+      
       return hSeam;
+   }
+   
+   public int[] getMinSeam(double [][] grid) {
+      int rows=grid.length;
+      System.out.println("rows: "+ rows);
+      int cols=grid[0].length;
+      int[] hseam = new int[cols];
+      double min = grid [0][cols-1];
+      int minIndex = 0;
+      
+      for (int i = 1 ; i < rows; i ++){
+         if(grid[i][cols-1] < min) {
+            min = grid[i][cols-1];
+            minIndex = i;
+         }
+      }
+      
+      for ( int i = cols-1 ; i >= 1 ; i --) {
+      //swap x and y for rows and cols, minIndex represents they coordinate
+         double curEnergy = energy(i, minIndex);
+         System.out.println("row " + i);
+         double target = grid[minIndex][i] - curEnergy;
+         
+         hseam[i] = minIndex;
+         //have to do edge cases check
+         if(minIndex >=1) {
+            if(grid[minIndex-1][i-1] == target) {
+               minIndex = minIndex -1;
+            }
+         }
+         
+         if(minIndex < rows-1) {
+            if(grid[minIndex+1][i-1] == target) {
+               minIndex = minIndex -1;
+            }
+         }
+         
+      }
+      hseam[0] = minIndex;
+
+      return hseam;
    }
    public   int[] findVerticalSeam(){
    // sequence of indices for vertical seam
