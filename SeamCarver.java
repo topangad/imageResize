@@ -31,6 +31,8 @@ public class SeamCarver {
        left = this.picture.get( ( x == 0 ) ? width()-1 : x - 1, y);
        right = this.picture.get( ( x == width()-1) ? 0 : x + 1, y);     
       
+      if( x == 0 || y == 0 || y == height()-1 || x == width() -1) return 195075;
+      
       rdx = Math.abs(right.getRed() - left.getRed());
       bdx = Math.abs(right.getBlue() - left.getBlue());
       gdx = Math.abs(right.getGreen() - left.getGreen());
@@ -55,18 +57,18 @@ public class SeamCarver {
       int colCounter = 0;
       //dp base case x = cols, y = rows
       for (int i = 0; i < h; i ++) {
-         minEnergyMap[i][0] = energy(colCounter, i);
+         minEnergyMap[i][0] = energy(0, i);
       }
       for ( int col = 1; col < w; col++) {
-         for (int row = 1; row < h-1; row ++) {
+         for (int row = 0; row < h; row++) {
             double currPixEnergy = energy(col, row);          
             double left = minEnergyMap[row][col-1];
-            double leftTop = minEnergyMap[row-1][col-1];
-            double leftBottom = minEnergyMap[row+1][col-1];
+            double leftTop =( row == 0) ? 199999999 : minEnergyMap[row-1][col-1];
+            double leftBottom =( row == h-1)? 19999999 : minEnergyMap[row+1][col-1];
             
             double smallest = left;
-            if (smallest > leftTop) smallest = leftTop;
-            if (smallest > leftBottom) smallest = leftBottom;
+            if (smallest > leftTop){ smallest = leftTop;}
+            if (smallest > leftBottom) {smallest = leftBottom;}
             minEnergyMap[row][col]= currPixEnergy + smallest;
          }
       }
@@ -85,6 +87,7 @@ public class SeamCarver {
       
       for (int i = 1 ; i < rows; i++){
          if(grid[i][cols-1] < min) {
+            
             min = grid[i][cols-1];
             minIndex = i;
          }
@@ -92,16 +95,14 @@ public class SeamCarver {
       
       for ( int i = cols-1 ; i >= 1 ; i--) {
       //swap x and y for rows and cols, minIndex represents they coordinate
-         double curEnergy = energy(i, minIndex);
-         
-         double target = grid[minIndex][i] - curEnergy;
-         
+         double curEnergy = energy(i, minIndex); 
+         double target = grid[minIndex][i] - curEnergy; 
          hseam[i] = minIndex;
          //have to do edge cases check
          if(minIndex == 0) {            
             if(grid[minIndex+1][i-1] == target) {
                minIndex = minIndex +1;
-            }            
+            }                    
          }
          else if (minIndex == rows-1) {
             if(grid[minIndex-1][i-1] == target) {
@@ -115,7 +116,9 @@ public class SeamCarver {
                minIndex = minIndex-1;
             }
 
-         }
+         }         
+         
+                 
          
                   
       }
@@ -136,4 +139,8 @@ public class SeamCarver {
    
    public void removeVerticalSeam(int[] seam){     // remove vertical seam from current picture
    }
+   public void print(double in) {
+      System.out.println(in);
+   }
 }
+
