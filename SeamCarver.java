@@ -2,14 +2,27 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.awt.Color;
-
+/*angad k*/
 public class SeamCarver {
 
    private Picture picture;
+
    public SeamCarver(Picture picture){  
       this.picture=picture;
    }
    public Picture picture(){
+      return this.picture;
+   }
+
+   public Picture transP() {
+      Picture tp = new Picture (this.picture.height(), this.picture.width());
+      for ( int y = 0 ; y < this.picture.width() ; y ++) {
+         for ( int x = 0 ; x < this.picture.height(); x++) {
+            Color temp = this.picture.get(y, x);
+            tp.set( x, y, temp);
+         }
+      }
+      this.picture = tp;
       return this.picture;
    }
    public int width(){
@@ -87,7 +100,6 @@ public class SeamCarver {
       
       for (int i = 1 ; i < rows; i++){
          if(grid[i][cols-1] < min) {
-            
             min = grid[i][cols-1];
             minIndex = i;
          }
@@ -95,14 +107,14 @@ public class SeamCarver {
       
       for ( int i = cols-1 ; i >= 1 ; i--) {
       //swap x and y for rows and cols, minIndex represents they coordinate
-         double curEnergy = energy(i, minIndex); 
-         double target = grid[minIndex][i] - curEnergy; 
+         double curEnergy = energy(i, minIndex);
+         double target = grid[minIndex][i] - curEnergy;
          hseam[i] = minIndex;
          //have to do edge cases check
-         if(minIndex == 0) {            
+         if(minIndex == 0) {
             if(grid[minIndex+1][i-1] == target) {
                minIndex = minIndex +1;
-            }                    
+            }
          }
          else if (minIndex == rows-1) {
             if(grid[minIndex-1][i-1] == target) {
@@ -115,29 +127,22 @@ public class SeamCarver {
             }  else if(grid[minIndex-1][i-1] == target) {
                minIndex = minIndex-1;
             }
-
-         }         
-         
-                 
-         
-                  
+         }
       }
       hseam[0] = minIndex;
-
       return hseam;
    }
    public   int[] findVerticalSeam(){
-   // sequence of indices for vertical seam
-      int [] vseam = new int [2];
-      vseam[0]=1;
-      vseam[1]=2;
-      return null;
+   //same as hseam for transpose(this.picture)   
+      this.transP();
+      int [] vseam = this.findHorizontalSeam();
+      this.transP();
+      return vseam;
    }
-   public void removeHorizontalSeam(int[] seam){   // remove horizontal seam from current picture
-   
+   public void removeHorizontalSeam(int[] seam){   
    }
    
-   public void removeVerticalSeam(int[] seam){     // remove vertical seam from current picture
+   public void removeVerticalSeam(int[] seam){
    }
    public void print(double in) {
       System.out.println(in);

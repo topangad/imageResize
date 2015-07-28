@@ -222,8 +222,8 @@ public final class Picture implements ActionListener {
      * and 0 &le; <tt>row</tt> &lt; <tt>height</tt>
      */
     public Color get(int col, int row) {
-        if (col < 0 || col >= width())  throw new IndexOutOfBoundsException("col must be between 0 and " + (width()-1));
-        if (row < 0 || row >= height()) throw new IndexOutOfBoundsException("row must be between 0 and " + (height()-1));
+        if (col < 0 || col >= width())  throw new IndexOutOfBoundsException("col must be between 0 and " + (width()-1) + "col:"+col);
+        if (row < 0 || row >= height()) throw new IndexOutOfBoundsException("row must be between 0 and " + (height()-1)+ "row:"+row);
         if (isOriginUpperLeft) return new Color(image.getRGB(col, row));
         else                   return new Color(image.getRGB(col, height - row - 1));
     }
