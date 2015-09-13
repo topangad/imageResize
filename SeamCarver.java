@@ -139,7 +139,14 @@ public class SeamCarver {
       this.transP();
       return vseam;
    }
-   public void removeHorizontalSeam(int[] seam){   
+   public void removeHorizontalSeam(int[] seam){
+      Picture modded = new Picture(width(), height()-1);
+      int [] seam = this.findHorizontalSeam();
+      for( int index = 0 ; index < seam.length(); i ++) {
+         for (int i = 0 ; i < height()-1 ; i ++){
+             
+         }
+      }
    }
    
    public void removeVerticalSeam(int[] seam){
