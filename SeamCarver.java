@@ -52,7 +52,7 @@ public class SeamCarver {
 
       rdy = Math.abs(top.getRed() - bottom.getRed());
       bdy = Math.abs(top.getBlue() - bottom.getBlue());
-      gdy = Math.abs(top.getGreen() - bottom.getGreen()); 
+      gdy = Math.abs(top.getGreen() - bottom.getGreen());  
       
       dx = rdx*rdx + bdx*bdx + gdx*gdx;
       dy = rdy*rdy + bdy*bdy + gdy*gdy;      
@@ -139,10 +139,11 @@ public class SeamCarver {
       this.transP();
       return vseam;
    }
+   
    public void removeHorizontalSeam(int[] seam){
       Picture modded = new Picture(width(), height()-1);
-      int [] seam = this.findHorizontalSeam();
-      for( int index = 0 ; index < seam.length(); i ++) {
+      int [] actualSeam = this.findHorizontalSeam();
+      for( int index = 0 ; index < seam.length; index++) {
          for (int i = 0 ; i < height()-1 ; i ++){
              
          }
@@ -150,6 +151,7 @@ public class SeamCarver {
    }
    
    public void removeVerticalSeam(int[] seam){
+      //transpose and remove vertical seam
    }
    public void print(double in) {
       System.out.println(in);
